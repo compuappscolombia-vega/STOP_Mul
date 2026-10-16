@@ -24,12 +24,10 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  if (event.request.url.includes('/api/')) {
+  if (event.request.method !== 'GET' || event.request.url.includes('/api/')) {
     return;
   }
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).catch(() => caches.match('/'));
-    })
+    fetch(event.request).catch(() => caches.match(event.request).then(cached => cached || caches.match('/')))
   );
 });

@@ -475,6 +475,12 @@ export default function App() {
     }
   };
 
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 3500);
+  };
+
   const handleJoinRoom = async (code: string) => {
     try {
       const res = await fetch(`/api/rooms/${code}/join`, {
@@ -490,10 +496,11 @@ export default function App() {
         setCurrentView('ONLINE_ROOM');
         connectToRoomSSE(code);
       } else {
-        alert('Could not join room. Check the code and try again.');
+        showToast('Could not join room. Check the code and try again.');
       }
     } catch (e) {
       console.error('Error joining room:', e);
+      showToast('Connection error. Please try again.');
     }
   };
 
@@ -557,6 +564,13 @@ export default function App() {
 
   return (
     <main className="min-h-screen w-full bg-slate-950 text-slate-100 flex flex-col relative select-none">
+      {toastMessage && (
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-rose-600 text-white font-medium px-5 py-2.5 rounded-2xl shadow-2xl border border-rose-400 flex items-center gap-2 pointer-events-none">
+          <span>⚠️</span>
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
       {/* 1. Title Screen */}
       {currentView === 'TITLE' && (
         <TitleScreen
