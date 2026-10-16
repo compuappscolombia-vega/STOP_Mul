@@ -1,0 +1,6 @@
+{
+  "name": "STOP! Multiplayer Category Rush",
+  "description": "Vibrant real-time online multiplayer STOP category word game with letter roulette, live pressure countdown, custom rooms, global and weekly leaderboards, chat, daily challenges, and offline practice.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

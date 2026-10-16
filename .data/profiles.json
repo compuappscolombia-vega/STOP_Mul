@@ -1,0 +1,164 @@
+[
+  {
+    "id": "usr_1792133946852_xkbj",
+    "name": "Player_3617",
+    "avatar": "🥑",
+    "syncCode": "STOP-3617",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 1,
+      "wins": 0,
+      "stopsCalled": 1,
+      "totalPoints": 40,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T06:59:06.932Z"
+  },
+  {
+    "id": "usr_1792135908482_w7b0",
+    "name": "Player_5257",
+    "avatar": "🥑",
+    "syncCode": "STOP-8241",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 0,
+      "wins": 0,
+      "stopsCalled": 0,
+      "totalPoints": 0,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T07:31:48.549Z"
+  },
+  {
+    "id": "usr_1792134211543_svh0",
+    "name": "Player_8900",
+    "avatar": "🎯",
+    "syncCode": "STOP-8900",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 1,
+      "wins": 0,
+      "stopsCalled": 2,
+      "totalPoints": 30,
+      "bestRoundScore": 15,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T07:34:51.900Z"
+  },
+  {
+    "id": "usr_1792137244696_ouyf",
+    "name": "Player_5257",
+    "avatar": "🥑",
+    "syncCode": "STOP-5257",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 1,
+      "wins": 0,
+      "stopsCalled": 1,
+      "totalPoints": 15,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T07:54:04.771Z"
+  },
+  {
+    "id": "usr_1792138260249_bsm2",
+    "name": "Player_7829",
+    "avatar": "👑",
+    "syncCode": "STOP-7829",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 1,
+      "wins": 0,
+      "stopsCalled": 0,
+      "totalPoints": 0,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T08:11:00.309Z"
+  },
+  {
+    "id": "usr_1792138373293_doir",
+    "name": "Player_9234",
+    "avatar": "🥑",
+    "syncCode": "STOP-9234",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 1,
+      "wins": 0,
+      "stopsCalled": 0,
+      "totalPoints": 0,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T08:12:53.354Z"
+  },
+  {
+    "id": "usr_1792138409714_iw1d",
+    "name": "Player_5185",
+    "avatar": "🎯",
+    "syncCode": "STOP-5185",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 0,
+      "wins": 0,
+      "stopsCalled": 0,
+      "totalPoints": 0,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T08:13:29.776Z"
+  },
+  {
+    "id": "usr_1792138435390_yk04",
+    "name": "Player_9214",
+    "avatar": "🎯",
+    "syncCode": "STOP-9214",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 0,
+      "wins": 0,
+      "stopsCalled": 0,
+      "totalPoints": 0,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T08:13:55.521Z"
+  },
+  {
+    "id": "usr_1792138457900_o7uy",
+    "name": "Player_2988",
+    "avatar": "🔥",
+    "syncCode": "STOP-2988",
+    "title": "Rookie Rusher",
+    "stats": {
+      "gamesPlayed": 0,
+      "wins": 0,
+      "stopsCalled": 0,
+      "totalPoints": 0,
+      "bestRoundScore": 0,
+      "currentStreak": 0,
+      "dailyChallengesCompleted": [],
+      "averageResponseTimeSec": 0
+    },
+    "createdAt": "2026-10-16T08:14:17.953Z"
+  }
+]
