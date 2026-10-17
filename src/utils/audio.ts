@@ -324,6 +324,34 @@ class SoundEngine {
     subOsc.start(now);
     subOsc.stop(now + 0.6);
   }
+
+  /**
+   * Voice speech announcement for game countdowns and alerts
+   */
+  public speakVoice(text: string, options?: { rate?: number; pitch?: number; lang?: string }) {
+    if (this.muted) return;
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = options?.lang || 'es-ES';
+      utterance.rate = options?.rate ?? 1.25;
+      utterance.pitch = options?.pitch ?? 1.1;
+      utterance.volume = 1.0;
+
+      const voices = window.speechSynthesis.getVoices();
+      if (voices && voices.length > 0) {
+        const esVoice = voices.find(v => v.lang.toLowerCase().startsWith('es') || v.lang.toLowerCase().includes('spanish'));
+        if (esVoice) {
+          utterance.voice = esVoice;
+        }
+      }
+      window.speechSynthesis.speak(utterance);
+    } catch (e) {
+      console.warn('Voice speech announcement error:', e);
+    }
+  }
 }
 
 export const soundEngine = new SoundEngine();

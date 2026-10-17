@@ -19,6 +19,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+      // Suppress external browser extension runtime errors (MetaMask, wallet extensions)
+      window.addEventListener('error', function(event) {
+        if (
+          (event.filename && event.filename.includes('chrome-extension://')) ||
+          (event.message && (event.message.includes('MetaMask') || event.message.includes('ethereum') || event.message.includes('inpage.js')))
+        ) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          return true;
+        }
+      }, true);
+
+      window.addEventListener('unhandledrejection', function(event) {
+        var reason = event.reason;
+        var msg = (reason && (reason.message || reason.stack || String(reason))) || '';
+        if (msg.includes('MetaMask') || msg.includes('chrome-extension://') || msg.includes('ethereum') || msg.includes('inpage.js')) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+      }, true);
+    </script>
   </head>
   <body class="bg-slate-950 text-slate-100 antialiased overflow-x-hidden selection:bg-rose-500 selection:text-white" data-state="title">
     <div id="root"></div>

@@ -18,7 +18,7 @@ export const LetterWheel: React.FC<LetterWheelProps> = ({ targetLetter, onSpinCo
 
   useEffect(() => {
     let tickCount = 0;
-    const maxTicks = 12;
+    const maxTicks = 16;
     let delay = 40;
     const activeTimeouts: NodeJS.Timeout[] = [];
 
@@ -28,54 +28,62 @@ export const LetterWheel: React.FC<LetterWheelProps> = ({ targetLetter, onSpinCo
       return id;
     };
 
-    // 1. Spinning wheel ticks (fast, thrilling deceleration)
+    // 1. Spinning wheel ticks: fast, thrilling deceleration through random letters
     const runTick = () => {
       tickCount++;
+      // Pick random letter; NEVER reveal targetLetter until the final lock-in tick!
       const randomIdx = Math.floor(Math.random() * VALID_LETTERS.length);
       const chosen = tickCount >= maxTicks ? targetLetter : VALID_LETTERS[randomIdx];
       setDisplayLetter(chosen);
       soundEngine.playLetterTick();
 
       if (tickCount < maxTicks) {
-        delay += 14;
+        delay += 12;
         schedule(runTick, delay);
       } else {
-        // 2. Letter locked! Switch box to Azul Neón, Cian, Morado, Violeta Gradiente!
+        // 2. Letter locked! Switch box from red/yellow/orange/fuchsia to cyan/blue/purple/violet!
         setDisplayLetter(targetLetter);
         setPhase('REVEALED');
         soundEngine.playLetterReveal();
 
-        // Reveal letter clearly for 1.2s
+        // Voice announcement: "¡El juego arranca en...!"
+        soundEngine.speakVoice('¡El juego arranca en...!', { rate: 1.25 });
+
+        // Show the chosen letter for 1.3s, then start 3... 2... 1... STOP! countdown
         schedule(() => {
-          // 3. Countdown: 3...
+          // 3...
           setPhase('COUNT_3');
           soundEngine.playCountdownBeep(3);
+          soundEngine.speakVoice('¡Tres!', { rate: 1.3, pitch: 1.15 });
 
           schedule(() => {
             // 2...
             setPhase('COUNT_2');
             soundEngine.playCountdownBeep(2);
+            soundEngine.speakVoice('¡Dos!', { rate: 1.3, pitch: 1.2 });
 
             schedule(() => {
               // 1...
               setPhase('COUNT_1');
               soundEngine.playCountdownBeep(1);
+              soundEngine.speakVoice('¡Uno!', { rate: 1.3, pitch: 1.25 });
 
               schedule(() => {
                 // STOP! in iconic TitleScreen style!
                 setPhase('COUNT_STOP');
                 soundEngine.playCountdownStop();
+                soundEngine.speakVoice('¡STOP!', { rate: 1.2, pitch: 1.3 });
 
                 schedule(() => {
                   if (!hasCompletedRef.current) {
                     hasCompletedRef.current = true;
                     onSpinCompleteRef.current();
                   }
-                }, 850);
-              }, 750);
-            }, 750);
-          }, 750);
-        }, 1200);
+                }, 900);
+              }, 850);
+            }, 850);
+          }, 850);
+        }, 1300);
       }
     };
 
@@ -96,27 +104,27 @@ export const LetterWheel: React.FC<LetterWheelProps> = ({ targetLetter, onSpinCo
         {/* Status header banner */}
         <div className="mb-4">
           {isSpinning && (
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest bg-slate-900 border border-slate-700 text-slate-300 animate-pulse">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-mono uppercase tracking-widest bg-slate-950/90 border border-orange-500/60 text-orange-300 shadow-[0_0_20px_rgba(249,115,22,0.4)] animate-pulse">
+              <span className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-red-500 to-amber-400 animate-ping" />
               Girando la ruleta de letras...
             </span>
           )}
 
           {phase === 'REVEALED' && (
-            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-mono uppercase tracking-widest bg-cyan-950/80 border border-cyan-400 text-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.6)] animate-bounce">
-              <span className="w-2 h-2 rounded-full bg-cyan-300" />
+            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-mono uppercase tracking-widest bg-cyan-950/90 border border-cyan-400 text-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.7)] animate-bounce">
+              <span className="w-2.5 h-2.5 rounded-full bg-cyan-300" />
               ¡Letra Oficial Seleccionada!
             </span>
           )}
 
           {(phase === 'COUNT_3' || phase === 'COUNT_2' || phase === 'COUNT_1') && (
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest bg-purple-950/80 border border-purple-500 text-purple-200 shadow-[0_0_15px_rgba(168,85,247,0.5)]">
-              ¡Prepárate! La ronda comienza en:
+            <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs font-mono uppercase tracking-widest bg-purple-950/90 border border-purple-500 text-purple-200 shadow-[0_0_20px_rgba(168,85,247,0.6)]">
+              ¡Prepárate! Arrancando en:
             </span>
           )}
 
           {phase === 'COUNT_STOP' && (
-            <span className="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest bg-rose-950/80 border border-rose-500 text-rose-300 shadow-[0_0_25px_rgba(244,63,94,0.7)] animate-pulse">
+            <span className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-xs font-mono uppercase tracking-widest bg-rose-950/90 border border-rose-500 text-rose-300 shadow-[0_0_30px_rgba(244,63,94,0.8)] animate-pulse">
               ¡A JUGAR AHORA!
             </span>
           )}
@@ -124,36 +132,45 @@ export const LetterWheel: React.FC<LetterWheelProps> = ({ targetLetter, onSpinCo
 
         {/* 
           Tumbler Box:
-          When spinning: neutral sleek border.
-          When letter is given: changes to vibrant AZUL NEÓN, CIAN, MORADO, VIOLETA GRADIENTE!
+          1. WHILE SPINNING AT RANDOM:
+             Contour has a vibrant neon gradient of ROJO, AMARILLO, NARANJA, FUCSIA
+             with an intense hot neon glow!
+          2. ONCE LETTER IS SELECTED (LOCKED):
+             Contour transforms into the cool neon gradient:
+             AZUL NEÓN, CIAN, MORADO, VIOLETA GRADIENTE!
         */}
-        <div className="relative my-2 transition-all duration-500 transform">
+        <div className="relative my-3 transition-all duration-500 transform">
           <div
-            className={`w-40 h-40 md:w-52 md:h-52 rounded-3xl p-[4px] flex items-center justify-center transition-all duration-700 ${
-              isLetterLocked
-                ? 'bg-gradient-to-br from-cyan-400 via-blue-600 via-purple-600 to-violet-500 shadow-[0_0_60px_rgba(6,182,212,0.8),0_0_100px_rgba(168,85,247,0.7),inset_0_0_30px_rgba(6,182,212,0.4)] scale-105'
-                : 'bg-gradient-to-b from-slate-700 via-slate-800 to-slate-900 shadow-[0_0_40px_rgba(0,0,0,0.5)] scale-95'
+            className={`w-44 h-44 md:w-56 md:h-56 rounded-3xl p-[5px] flex items-center justify-center transition-all duration-500 ${
+              isSpinning
+                ? 'bg-gradient-to-tr from-red-600 via-amber-400 via-orange-500 to-fuchsia-500 shadow-[0_0_50px_rgba(239,68,68,0.75),0_0_80px_rgba(249,115,22,0.65),0_0_110px_rgba(217,70,239,0.55),inset_0_0_25px_rgba(250,204,21,0.35)] scale-100 animate-pulse'
+                : 'bg-gradient-to-br from-cyan-400 via-blue-600 via-purple-600 to-violet-500 shadow-[0_0_60px_rgba(6,182,212,0.85),0_0_100px_rgba(168,85,247,0.75),inset_0_0_30px_rgba(6,182,212,0.4)] scale-105'
             }`}
           >
             {/* Inner display plate */}
             <div
-              className={`w-full h-full rounded-[22px] flex items-center justify-center relative overflow-hidden transition-all duration-700 ${
-                isLetterLocked
-                  ? 'bg-slate-950/90 border border-cyan-300/40'
-                  : 'bg-slate-900 border border-white/10'
+              className={`w-full h-full rounded-[21px] flex items-center justify-center relative overflow-hidden transition-all duration-500 ${
+                isSpinning
+                  ? 'bg-slate-950 border border-orange-400/50'
+                  : 'bg-slate-950/90 border border-cyan-300/50'
               }`}
             >
-              {/* Subtle ambient neon glow inside plate */}
+              {/* Hot neon radial glow while spinning */}
+              {isSpinning && (
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(249,115,22,0.25)_0%,rgba(217,70,239,0.2)_50%,transparent_80%)] animate-pulse" />
+              )}
+
+              {/* Cyan & purple neon radial glow once letter is selected */}
               {isLetterLocked && (
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.25)_0%,rgba(168,85,247,0.2)_50%,transparent_80%)] animate-pulse" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(6,182,212,0.3)_0%,rgba(168,85,247,0.25)_50%,transparent_80%)] animate-pulse" />
               )}
 
               {/* Displayed Letter */}
               <span
-                className={`font-display font-black text-8xl md:text-9xl transition-all duration-300 z-10 ${
-                  isLetterLocked
-                    ? 'text-white drop-shadow-[0_0_35px_rgba(6,182,212,1)] scale-110'
-                    : 'text-slate-300 scale-90 rotate-3'
+                className={`font-display font-black text-8xl md:text-9xl transition-all duration-200 z-10 ${
+                  isSpinning
+                    ? 'text-white drop-shadow-[0_0_30px_rgba(249,115,22,0.9)] scale-95'
+                    : 'text-white drop-shadow-[0_0_35px_rgba(6,182,212,1)] scale-110'
                 }`}
               >
                 {displayLetter}
@@ -163,60 +180,47 @@ export const LetterWheel: React.FC<LetterWheelProps> = ({ targetLetter, onSpinCo
 
           {/* Neon Pointer Arrow indicators */}
           <div
-            className={`absolute -top-3.5 left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transition-colors ${
-              isLetterLocked ? 'border-t-cyan-400 drop-shadow-[0_0_10px_#22d3ee]' : 'border-t-slate-500'
+            className={`absolute -top-4 left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-t-8 transition-colors ${
+              isSpinning
+                ? 'border-t-orange-500 drop-shadow-[0_0_12px_#f97316]'
+                : 'border-t-cyan-400 drop-shadow-[0_0_12px_#22d3ee]'
             }`}
           />
           <div
-            className={`absolute -bottom-3.5 left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-b-8 transition-colors ${
-              isLetterLocked ? 'border-b-violet-400 drop-shadow-[0_0_10px_#a855f7]' : 'border-b-slate-500'
+            className={`absolute -bottom-4 left-1/2 -translate-x-1/2 w-0 h-0 border-x-8 border-x-transparent border-b-8 transition-colors ${
+              isSpinning
+                ? 'border-b-fuchsia-500 drop-shadow-[0_0_12px_#d946ef]'
+                : 'border-b-violet-400 drop-shadow-[0_0_12px_#a855f7]'
             }`}
           />
         </div>
 
-        {/* Informational Subtext */}
-        <p className="text-slate-300 text-sm md:text-base mt-4 font-medium">
-          Todas las palabras de esta ronda deben comenzar con la letra{' '}
-          <span className="font-extrabold text-white text-lg bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-400 text-cyan-200">
-            "{targetLetter.toUpperCase()}"
-          </span>
-        </p>
-
         {/* 
           =======================================================
           COUNTDOWN OVERLAY: 3... 2... 1... STOP!
-          Uses the EXACT SVG typography & style of the title screen!
+          Only shown when countdown starts; NO miniature appears!
           =======================================================
         */}
         {(phase === 'COUNT_3' || phase === 'COUNT_2' || phase === 'COUNT_1' || phase === 'COUNT_STOP') && (
-          <div className="absolute inset-0 -top-8 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-md rounded-3xl p-6 z-30 animate-in fade-in zoom-in-95 duration-200">
-            {/* Target Letter Reminder in small glowing pill */}
-            <div className="mb-4 inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/40 text-xs font-mono text-cyan-200">
-              <span>Letra activa:</span>
-              <span className="font-black text-sm text-white px-1.5 py-0.2 rounded bg-cyan-500/30">
-                {targetLetter.toUpperCase()}
-              </span>
-            </div>
-
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/85 backdrop-blur-md rounded-3xl p-6 z-30 animate-in fade-in zoom-in-95 duration-200">
             {/* Countdown Numbers: 3, 2, 1 */}
             {(phase === 'COUNT_3' || phase === 'COUNT_2' || phase === 'COUNT_1') && (
               <div key={phase} className="animate-in zoom-in-50 duration-300 flex flex-col items-center">
                 <span className="font-display font-black text-9xl md:text-[11rem] leading-none text-transparent bg-clip-text bg-gradient-to-b from-white via-cyan-200 to-purple-400 drop-shadow-[0_0_40px_rgba(6,182,212,0.9)]">
                   {phase === 'COUNT_3' ? '3' : phase === 'COUNT_2' ? '2' : '1'}
                 </span>
-                <span className="text-sm font-bold tracking-widest uppercase text-slate-300 mt-2">
-                  {phase === 'COUNT_3' ? 'Preparados...' : phase === 'COUNT_2' ? 'Listos...' : '¡Atentos!'}
+                <span className="text-sm font-bold tracking-widest uppercase text-slate-300 mt-3 font-mono">
+                  {phase === 'COUNT_3' ? '3...' : phase === 'COUNT_2' ? '2...' : '1...'}
                 </span>
               </div>
             )}
 
             {/* 
-              Iconic STOP! - Same style as TitleScreen 
-              Bespoke SVG Lockup with #stopGrad and #goldGrad
+              Iconic STOP! TitleScreen-style logo
             */}
             {phase === 'COUNT_STOP' && (
               <div key="stop-blast" className="w-full max-w-md animate-in zoom-in-75 duration-200 flex flex-col items-center">
-                <div className="w-full drop-shadow-[0_15px_30px_rgba(244,63,94,0.8)]">
+                <div className="w-full drop-shadow-[0_15px_30px_rgba(244,63,94,0.85)]">
                   <svg viewBox="0 0 500 110" className="w-full h-auto">
                     <defs>
                       <linearGradient id="stopCountdownGrad" x1="0%" y1="0%" x2="100%" y2="100%">

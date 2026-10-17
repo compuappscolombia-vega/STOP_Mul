@@ -592,7 +592,7 @@ export default function App() {
       {(currentView === 'PRACTICE' || currentView === 'DAILY_PLAY') && (
         <div className="flex-1 flex flex-col">
           <GameHUD
-            currentLetter={practiceLetter}
+            currentLetter={isSpinningPractice ? '?' : practiceLetter}
             currentRound={practiceRound}
             totalRounds={totalPracticeRounds}
             timeRemainingSec={practiceTimeRemaining}
@@ -608,7 +608,7 @@ export default function App() {
 
           <GameBoard
             categories={practiceCategories}
-            targetLetter={practiceLetter}
+            targetLetter={isSpinningPractice ? '?' : practiceLetter}
             answers={practiceAnswers}
             onAnswerChange={(catId, val) =>
               setPracticeAnswers(prev => ({ ...prev, [catId]: val }))

@@ -104,21 +104,48 @@ export const GameHUD: React.FC<GameHUDProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
+          {/* Dedicated Quick Mute/Unmute Control for intense rounds */}
           <button
-            onClick={onToggleMute}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
-            title={isMuted ? 'Unmute [M]' : 'Mute [M]'}
-            aria-label="Toggle Mute"
+            type="button"
+            onClick={() => {
+              onToggleMute();
+              if (isMuted) {
+                setTimeout(() => soundEngine.playLetterReveal(), 50);
+              }
+            }}
+            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border transition-all active:scale-95 cursor-pointer shadow-sm select-none ${
+              isMuted
+                ? 'bg-rose-950/70 border-rose-500/50 text-rose-300 hover:bg-rose-900/80 shadow-[0_0_12px_rgba(244,63,94,0.25)]'
+                : 'bg-emerald-950/60 border-emerald-500/40 text-emerald-300 hover:bg-emerald-900/70 shadow-[0_0_12px_rgba(16,185,129,0.2)]'
+            }`}
+            title={isMuted ? 'Activar sonido [Tecla M]' : 'Silenciar sonido [Tecla M]'}
+            aria-label={isMuted ? 'Activar sonido' : 'Silenciar sonido'}
+            aria-pressed={isMuted}
           >
-            {isMuted ? <VolumeX className="w-4 h-4 text-rose-400" /> : <Volume2 className="w-4 h-4 text-emerald-400" />}
+            {isMuted ? (
+              <>
+                <VolumeX className="w-4 h-4 text-rose-400 shrink-0" />
+                <span className="hidden sm:inline font-bold">Mudo</span>
+                <span className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+              </>
+            ) : (
+              <>
+                <Volume2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span className="hidden sm:inline font-bold">Audio</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+              </>
+            )}
+            <kbd className="hidden md:inline-block text-[10px] px-1.5 py-0.5 rounded font-mono bg-black/40 border border-white/10 text-slate-300">
+              M
+            </kbd>
           </button>
 
           <button
             onClick={onPause}
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
-            title="Pause Game [Esc]"
-            aria-label="Pause Game"
+            className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-colors active:scale-95 cursor-pointer"
+            title="Pausar juego [Esc]"
+            aria-label="Pausar juego"
           >
             <Pause className="w-4 h-4" />
           </button>
