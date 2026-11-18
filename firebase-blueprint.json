@@ -1,0 +1,213 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated user's private profile, sync code, and cumulative game stats.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Firebase Auth UID of the owner." },
+        "name": { "type": "string", "description": "Display nickname (1-30 chars)." },
+        "avatar": { "type": "string", "description": "Emoji avatar." },
+        "syncCode": { "type": "string", "description": "Profile sync identifier (e.g. STOP-1234)." },
+        "title": { "type": "string", "description": "Player rank title." },
+        "email": { "type": "string", "description": "Optional owner email (private to owner only)." },
+        "gamesPlayed": { "type": "integer" },
+        "wins": { "type": "integer" },
+        "stopsCalled": { "type": "integer" },
+        "totalPoints": { "type": "integer" },
+        "weeklyPoints": { "type": "integer" },
+        "bestRoundScore": { "type": "integer" },
+        "currentStreak": { "type": "integer" },
+        "dailyChallengesCompleted": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Server timestamp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Server timestamp." }
+      },
+      "required": [
+        "userId", "name", "avatar", "syncCode", "title",
+        "gamesPlayed", "wins", "stopsCalled", "totalPoints", "weeklyPoints",
+        "bestRoundScore", "currentStreak", "dailyChallengesCompleted",
+        "createdAt", "updatedAt"
+      ]
+    },
+    "LeaderboardEntry": {
+      "title": "LeaderboardEntry",
+      "description": "Public cross-device ranking entry (no PII).",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "title": { "type": "string" },
+        "totalPoints": { "type": "integer" },
+        "weeklyPoints": { "type": "integer" },
+        "wins": { "type": "integer" },
+        "stopsCalled": { "type": "integer" },
+        "streak": { "type": "integer" },
+        "tier": { "type": "string" },
+        "isPublic": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "name", "avatar", "title", "totalPoints", "weeklyPoints",
+        "wins", "stopsCalled", "streak", "tier", "isPublic", "createdAt", "updatedAt"
+      ]
+    },
+    "GameRoom": {
+      "title": "GameRoom",
+      "description": "Real-time multiplayer room state synchronized across devices.",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "name": { "type": "string" },
+        "hostId": { "type": "string" },
+        "hostName": { "type": "string" },
+        "roundCount": { "type": "integer" },
+        "roundDurationSec": { "type": "integer" },
+        "categoryIds": { "type": "array" },
+        "isPrivate": { "type": "boolean" },
+        "difficulty": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD"] },
+        "phase": { "type": "string", "enum": ["LOBBY", "ROUND_ACTIVE", "STOP_CALLED", "ROUND_SCORES", "MATCH_OVER"] },
+        "currentRound": { "type": "integer" },
+        "currentLetter": { "type": "string" },
+        "stopperPlayerId": { "type": "string" },
+        "stopperName": { "type": "string" },
+        "memberUids": { "type": "array" },
+        "playerCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "code", "name", "hostId", "hostName", "roundCount", "roundDurationSec",
+        "categoryIds", "isPrivate", "difficulty", "phase", "currentRound",
+        "currentLetter", "stopperPlayerId", "stopperName", "memberUids",
+        "playerCount", "createdAt", "updatedAt"
+      ]
+    },
+    "RoomPlayer": {
+      "title": "RoomPlayer",
+      "description": "Live per-player round answers and progress inside a multiplayer room.",
+      "type": "object",
+      "properties": {
+        "roomCode": { "type": "string" },
+        "playerId": { "type": "string" },
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "isHost": { "type": "boolean" },
+        "isBot": { "type": "boolean" },
+        "isReady": { "type": "boolean" },
+        "isPublic": { "type": "boolean" },
+        "memberUids": { "type": "array" },
+        "totalScore": { "type": "integer" },
+        "roundScore": { "type": "integer" },
+        "answers": { "type": "object" },
+        "hasStopped": { "type": "boolean" },
+        "stopElapsedSec": { "type": "integer" },
+        "filledCount": { "type": "integer" },
+        "statusText": { "type": "string" },
+        "answeredRound": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "roomCode", "playerId", "name", "avatar", "isHost", "isBot", "isReady",
+        "isPublic", "memberUids", "totalScore", "roundScore", "answers",
+        "hasStopped", "stopElapsedSec", "filledCount", "statusText",
+        "answeredRound", "createdAt", "updatedAt"
+      ]
+    },
+    "RoomMessage": {
+      "title": "RoomMessage",
+      "description": "Real-time chat message in a multiplayer room.",
+      "type": "object",
+      "properties": {
+        "roomCode": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderAvatar": { "type": "string" },
+        "text": { "type": "string" },
+        "isSystem": { "type": "boolean" },
+        "isPublic": { "type": "boolean" },
+        "memberUids": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "roomCode", "senderId", "senderName", "senderAvatar", "text",
+        "isSystem", "isPublic", "memberUids", "createdAt"
+      ]
+    },
+    "DailyChallenge": {
+      "title": "DailyChallenge",
+      "description": "Shared unique daily challenge task stored in Firestore for all players.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "description": "ISO date YYYY-MM-DD." },
+        "title": { "type": "string" },
+        "taskDescription": { "type": "string" },
+        "letter": { "type": "string" },
+        "categoryIds": { "type": "array" },
+        "targetParScore": { "type": "integer" },
+        "timeLimitSec": { "type": "integer" },
+        "bonusPoints": { "type": "integer" },
+        "isActive": { "type": "boolean" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "date", "title", "taskDescription", "letter", "categoryIds",
+        "targetParScore", "timeLimitSec", "bonusPoints", "isActive",
+        "createdBy", "createdAt"
+      ]
+    },
+    "DailyCompletion": {
+      "title": "DailyCompletion",
+      "description": "Per-user completion record and bonus points earned for a daily challenge.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "date": { "type": "string" },
+        "challengeTitle": { "type": "string" },
+        "letter": { "type": "string" },
+        "roundScore": { "type": "integer" },
+        "bonusPointsAwarded": { "type": "integer" },
+        "totalAwarded": { "type": "integer" },
+        "parAchieved": { "type": "boolean" },
+        "completedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "userId", "date", "challengeTitle", "letter", "roundScore",
+        "bonusPointsAwarded", "totalAwarded", "parAchieved", "completedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private authenticated user profile & cumulative game statistics."
+    },
+    "/users/{userId}/dailyCompletions/{dateId}": {
+      "schema": { "$ref": "#/entities/DailyCompletion" },
+      "description": "User-specific daily challenge completion status and bonus points awarded."
+    },
+    "/dailyChallenges/{dateId}": {
+      "schema": { "$ref": "#/entities/DailyChallenge" },
+      "description": "Shared daily challenge task definitions indexed by YYYY-MM-DD."
+    },
+    "/leaderboards/{userId}": {
+      "schema": { "$ref": "#/entities/LeaderboardEntry" },
+      "description": "Public cross-device player rankings (non-PII)."
+    },
+    "/rooms/{roomCode}": {
+      "schema": { "$ref": "#/entities/GameRoom" },
+      "description": "Active multiplayer rooms indexed by room code."
+    },
+    "/rooms/{roomCode}/players/{playerId}": {
+      "schema": { "$ref": "#/entities/RoomPlayer" },
+      "description": "Player live progress, answers, and score inside a room."
+    },
+    "/rooms/{roomCode}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/RoomMessage" },
+      "description": "Live room chat and system event log."
+    }
+  }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stop! Rush</string>
+    <string name="app_subtitle">MULTIPLAYER CATEGORY RUSH</string>
+    <string name="footer_credit">createby CompuApps SecureDev</string>
+    <string name="title_tagline">Spin the alphabet, brainstorm fast categories under pressure, and slap STOP! before your rivals.</string>
+    <string name="start_practice_sprint">START PRACTICE SPRINT</string>
+    <string name="online_multiplayer_cta">Online Multiplayer Lobby &amp; Rooms</string>
+    <string name="daily_challenge">Daily Challenge</string>
+    <string name="rankings">Rankings</string>
+    <string name="sign_in_register">Sign In / Register</string>
+    <string name="session_account">Session Account</string>
+    <string name="bot_speed_label">Velocidad de Respuesta del Bot:</string>
+    <string name="bot_difficulty_label">Nivel de Bot:</string>
+    <string name="game_paused">GAME PAUSED</string>
+    <string name="pause_subtitle">Timer is frozen · Take a breather</string>
+    <string name="resume_game">Resume Game</string>
+    <string name="quit_to_title">Quit to Title Screen</string>
+    <string name="mute_sound">Mute Sound</string>
+    <string name="unmute_sound">Unmute Sound</string>
+    <string name="stop_button">STOP!</string>
+    <string name="slap_to_finish">Slap to finish round &amp; lock all answers!</string>
+    <string name="cd_toggle_mute">Toggle audio mute</string>
+    <string name="cd_pause_game">Pause game</string>
+    <string name="cd_back">Navigate back</string>
+    <string name="cd_close">Close dialog</string>
+    <string name="cd_refresh_rooms">Refresh rooms list</string>
+    <string name="cd_copy_code">Copy code</string>
+    <string name="cd_send_message">Send chat message</string>
+</resources>
